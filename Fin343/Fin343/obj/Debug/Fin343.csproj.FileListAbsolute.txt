@@ -1,0 +1,30 @@
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\bin\Debug\Fin343.exe.config
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\bin\Debug\Fin343.exe
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\bin\Debug\Fin343.pdb
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.csprojAssemblyReference.cache
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.Form1.resources
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.Properties.Resources.resources
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.csproj.GenerateResource.cache
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.csproj.CoreCompileInputs.cache
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.exe
+C:\Users\Katz9\Documents\_MyFiles\Touro\_2019__Spring\3 MCON 343\C# projects\Fin343\Fin343\obj\Debug\Fin343.pdb
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\bin\Debug\Fin343.exe.config
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\bin\Debug\Fin343.exe
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\bin\Debug\Fin343.pdb
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csprojAssemblyReference.cache
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.Form1.resources
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.Properties.Resources.resources
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csproj.GenerateResource.cache
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csproj.CoreCompileInputs.cache
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.exe
+C:\Users\Katz9\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.pdb
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\bin\Debug\Fin343.exe.config
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\bin\Debug\Fin343.exe
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\bin\Debug\Fin343.pdb
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csprojAssemblyReference.cache
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.Form1.resources
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.Properties.Resources.resources
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csproj.GenerateResource.cache
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csproj.CoreCompileInputs.cache
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.exe
+C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.pdb
