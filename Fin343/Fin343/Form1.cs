@@ -22,11 +22,11 @@ namespace Fin343
                 //Change this to your local machine
                 sqlCon = new SqlConnection("Server=LAPTOP-S1SI6Q9Q\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
                 sqlCon.Open(); // open a connection to the data base specified by sqlCon
-                String symbol = tbTicker.Text;
+                /**String ticker = tbTicker.Text;
 
                 SqlCommand sqlCmd = new SqlCommand("spGetPrcForSymbol", sqlCon);  
                 sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.Add("@Symbol", System.Data.SqlDbType.VarChar).Value = symbol;
+                sqlCmd.Parameters.Add("@Ticker", System.Data.SqlDbType.VarChar).Value = ticker;
                 sqlCmd.Parameters.Add("@MinPrc", System.Data.SqlDbType.Float).Value = 0.0;
                 //this does not work:
                 sqlCmd.Parameters.Add("@MinDat", System.Data.SqlDbType.VarChar).Value = dtpFrom.Value.ToString();
@@ -44,7 +44,7 @@ namespace Fin343
                     chrtPrices.Series[0].Points.AddXY(table.Rows[ii][0], table.Rows[ii][1]);
                 }
                 Form1.ActiveForm.Text = symbol + " Closing Prices";
-                dgvDump.DataSource = table;
+                dgvDump.DataSource = table;**/
             }
 
             catch (Exception ex)
