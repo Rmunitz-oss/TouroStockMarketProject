@@ -39,7 +39,7 @@ namespace Fin343
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@givenTicker", ticker));
                 command.Parameters.Add(new SqlParameter("@dateFrom", dateFrom));
-                command.Parameters.Add(new SqlParameter("@dateGiven", dateTo));
+                command.Parameters.Add(new SqlParameter("@dateTo", dateTo));
 
                 //fill dataset with results
                 SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
@@ -62,6 +62,9 @@ namespace Fin343
                     Console.WriteLine(row[3]);
                     Console.WriteLine(row[4]);
                 }
+                
+                //display data to user
+                
             }
             catch (Exception error)
             {
