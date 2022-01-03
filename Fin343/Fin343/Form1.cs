@@ -3,6 +3,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Security.AccessControl;
 
 namespace Fin343
 {
@@ -21,72 +22,59 @@ namespace Fin343
             {
                 //Change this to your local machine
                 //Jenn
-                //sqlCon = new SqlConnection("Server=LAPTOP-S1SI6Q9Q\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
-                //Rochel
-                sqlConnection = new SqlConnection("Server=LAPTOP-GOS64JAP\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
-                sqlConnnection.Open(); // open a connection to the data base specified by sqlConnection
-                
-               
-                SqlCommand sqlCommand = new SqlCommand("write SQL queries directly here", sqlConnection);  
-                //sqlCommand.CommandType = CommandType.StoredProcedure; //?
+                //sqlConnection = new SqlConnection("Server=LAPTOP-S1SI6Q9Q\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
+                //rochel
+                sqlConnection =
+                    new SqlConnection(
+                        "Server=LAPTOP-GOS64JAP\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
+                sqlConnection.Open();
 
-                //add parameter to query
-                //example
-                //get ticker user input in GUI
+                //get user's input
                 String ticker = tbTicker.Text;
-                SqlCommand command = new SqLCommand ("SELECT * FROM MARKETDATA WHERE Ticker = @Ticker", sqlConnection);
-                command.Parameters.Add(new SqlParamater("Ticker", ticker));
+                DateTime dateFrom = dtpFrom.Value;
+                DateTime dateTo = dtpTo.Value;
 
-                //using a sql data reader to read the data results from the command
-                SqlDataReader reader = command.ExecuteReader();
-                while(reader.Read()){
-                    //read data into variables etc
-                }
-                
-                /*
-                sqlCommand.Parameters.Add("@Symbol", System.Data.SqlDbType.VarChar).Value = symbol;
-                sqlCommand.Parameters.Add("@MinPrc", System.Data.SqlDbType.Float).Value = 0.0;
-                //this does not work:
-                sqlCmd.Parameters.Add("@MinDat", System.Data.SqlDbType.VarChar).Value = dtpFrom.Value.ToString();
-                //sqlCmd.Parameters.Add("@MinDat", System.Data.SqlDbType.SmallDateTime).Value = dtpFrom.Value; //.ToString();
-                sqlCmd.ExecuteNonQuery();
-                */
+                //call SQL stored procedure
+                SqlCommand command = new SqlCommand("GetData", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@givenTicker", ticker));
+                command.Parameters.Add(new SqlParameter("@dateFrom", dateFrom));
+                command.Parameters.Add(new SqlParameter("@dateGiven", dateTo));
 
-                //rather than reading line by line: fill a DataSet
-                //example:
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                DataSet dataset = new DataSet();
-                String srcTable = "MarketData";
-                dataAdapter.Fill(dataset, srcTable);
+                //fill dataset with results
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "DailyPnL");
+                //not sure yet the best way to organize the date, leaving this here to test
+                //potential idea: put in 2D array?
+                DataColumn dates = dataSet.Tables[0].Columns[0];
+                DataColumn quantities = dataSet.Tables[0].Columns[1];
+                DataColumn transactionPrices = dataSet.Tables[0].Columns[2];
+                DataColumn closingPrices = dataSet.Tables[0].Columns[3];
+                DataColumn tradingPnLs = dataSet.Tables[0].Columns[4];
 
-                //fill chart on gui based on dataset 
-                chrtPrices.DataSource = dataset.Tables[0];
-                var table = dataset.Tables[0];
-                int nrPoints = table.Rows.Count;
-                for (int ii = 0; ii < nrPoints; ++ii)
+                DataRowCollection marketData = dataSet.Tables[0].Rows;
+                foreach (DataRow row in marketData)
                 {
-                    chrtPrices.Series[0].Points.AddXY(table.Rows[ii][0], table.Rows[ii][1]);
+                    Console.WriteLine(row[0]);
+                    Console.WriteLine(row[1]);
+                    Console.WriteLine(row[2]);
+                    Console.WriteLine(row[3]);
+                    Console.WriteLine(row[4]);
                 }
-                Form1.ActiveForm.Text = symbol + " Closing Prices";
-                dgvDump.DataSource = table;
             }
-
-            catch (Exception ex)
-
+            catch (Exception error)
             {
-                MessageBox.Show(" " + DateTime.Now.ToLongTimeString() + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(" " + DateTime.Now.ToLongTimeString() + error.Message, "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
 
             finally
-
             {
-
                 if (sqlConnection != null && sqlConnection.State == System.Data.ConnectionState.Open)
-
+        
                     sqlConnection.Close();
-
             }
-
         }
     }
 }
