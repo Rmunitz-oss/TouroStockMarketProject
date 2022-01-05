@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Data;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Security.AccessControl;
 
 namespace Fin343
 {
@@ -15,54 +17,123 @@ namespace Fin343
 
         private void btnGetData_Click(object sender, EventArgs e)
         {
-            SqlConnection sqlCon = null;
+            SqlConnection sqlConnection = null;
 
             try
             {
                 //Change this to your local machine
-                sqlCon = new SqlConnection("Server=LAPTOP-S1SI6Q9Q\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
-                sqlCon.Open(); // open a connection to the data base specified by sqlCon
-                String symbol = tbTicker.Text;
+                //Jenn
+                //sqlConnection = new SqlConnection("Server=LAPTOP-S1SI6Q9Q\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
+                //rochel
+                sqlConnection =
+                    new SqlConnection(
+                        "Server=LAPTOP-GOS64JAP\\SQLEXPRESS;Database=StockMarketProject;Trusted_Connection=True;");
+                sqlConnection.Open();
 
-                SqlCommand sqlCmd = new SqlCommand("spGetPrcForSymbol", sqlCon);  
-                sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.Add("@Symbol", System.Data.SqlDbType.VarChar).Value = symbol;
-                sqlCmd.Parameters.Add("@MinPrc", System.Data.SqlDbType.Float).Value = 0.0;
-                //this does not work:
-                sqlCmd.Parameters.Add("@MinDat", System.Data.SqlDbType.VarChar).Value = dtpFrom.Value.ToString();
-                //sqlCmd.Parameters.Add("@MinDat", System.Data.SqlDbType.SmallDateTime).Value = dtpFrom.Value; //.ToString();
-                sqlCmd.ExecuteNonQuery();
+                //get user's input
+                String ticker = tbTicker.Text;
+                DateTime dateFrom = dtpFrom.Value;
+                DateTime dateTo = dtpTo.Value;
 
-                SqlDataAdapter da = new SqlDataAdapter(sqlCmd);
-                DataSet dataset = new DataSet();
-                da.Fill(dataset, "prices");
-                chrtPrices.DataSource = dataset.Tables[0];
-                var table = dataset.Tables[0];
-                int nrPoints = table.Rows.Count;
-                for (int ii = 0; ii < nrPoints; ++ii)
+                //call SQL stored procedure
+                SqlCommand command = new SqlCommand("GetData", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@givenTicker", ticker));
+                command.Parameters.Add(new SqlParameter("@dateFrom", dateFrom));
+                command.Parameters.Add(new SqlParameter("@dateTo", dateTo));
+
+                //fill dataset with results
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+                DataSet dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "DailyPnL");
+               
+                //create a table?
+                //DataTable marketDataTable = new DataTable();
+                //marketDataTable.Columns.Add("Date", typeof(DateTime));
+                //marketDataTable.Columns.Add("TradeQuantities");
+                
+                
+                DataColumn dates = dataSet.Tables[0].Columns[0];
+                DataColumn tradeQuantities = dataSet.Tables[0].Columns[1];
+                DataColumn transactionPrices = dataSet.Tables[0].Columns[2];
+                DataColumn closingPrices = dataSet.Tables[0].Columns[3];
+                DataColumn tradingPnLs = dataSet.Tables[0].Columns[4];
+              
+
+                DataRowCollection marketDataRows = dataSet.Tables[0].Rows;
+               
+                
+                //calculations
+                int nrRows = marketDataRows.Count;
+                
+                //b. total quantity = trade quantity + prior total quantity
+                double totalQuantity = 0;
+                double [] totalQuantities = new double [nrRows];
+                //first row, totalQuantity = trade quantity
+                DataRow firstRow = marketDataRows[0];
+                totalQuantity += (double) firstRow[1];
+                totalQuantities[0] = totalQuantity;
+                int index = 1;
+                foreach (DataRow row in marketDataRows)
                 {
-                    chrtPrices.Series[0].Points.AddXY(table.Rows[ii][0], table.Rows[ii][1]);
+                    totalQuantity += (double)row[1];
+                    totalQuantities[index] = totalQuantity;
+                    index++; 
                 }
-                Form1.ActiveForm.Text = symbol + " Closing Prices";
-                dgvDump.DataSource = table;
+                
+                //c. position pnl = quantity (current closing price - prior closing price)
+                Double[] positionPnLs = new Double[nrRows];
+                //first row (has no previous row) always zero (?)
+                positionPnLs[0] = 0;
+                for (int ix = 1; ix <= nrRows; ix++)
+                {
+                    DataRow row = marketDataRows[ix];
+                    DataRow previousRow = marketDataRows[ix - 1];
+                    double quantity = (double) row[1];
+                    if (quantity < 0)
+                    {
+                        quantity = totalQuantities[ix]; 
+                    }
+                    double closingPrice = (double) row[3];
+                    double previousClosingPrice = (double) previousRow[3];
+                    double positionPnL = quantity * (closingPrice - previousClosingPrice);
+                    positionPnLs[ix] = positionPnL;
+                }
+                
+                //d. total daily pnl = trading pnl + position pnl
+                Double[] totalDailyPnLs = new Double[nrRows];
+                for (int ix = 0; ix <= nrRows; ix++)
+                {
+                    DataRow row = marketDataRows[ix];
+                    double tradingPnl = (double) row[4];
+                    totalDailyPnLs[ix] = tradingPnl + positionPnLs[ix];
+                }
+                
+                //e. cumulative pnl = prior cumulative + total daily pnl
+                Double[] cumulativePnLs = new Double[nrRows];
+                cumulativePnLs[0] = totalDailyPnLs[0];
+                for (int ix = 1; ix <= nrRows; ix++)
+                {
+                    cumulativePnLs[ix] = cumulativePnLs[ix - 1] + totalDailyPnLs[ix];
+                }
+
+
+
+                //display data to user
+
             }
-
-            catch (Exception ex)
-
+            catch (Exception error)
             {
-                MessageBox.Show(" " + DateTime.Now.ToLongTimeString() + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(" " + DateTime.Now.ToLongTimeString() + error.Message, "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
 
             finally
-
             {
-
-                if (sqlCon != null && sqlCon.State == System.Data.ConnectionState.Open)
-
-                    sqlCon.Close();
-
+                if (sqlConnection != null && sqlConnection.State == System.Data.ConnectionState.Open)
+        
+                    sqlConnection.Close();
             }
-
         }
     }
 }
