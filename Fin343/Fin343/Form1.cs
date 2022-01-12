@@ -71,9 +71,11 @@ namespace Fin343
                 Int32 totalQuantity = 0;
                 Int32 [] totalQuantities = new Int32 [nrRows];
                 //first row, totalQuantity = trade quantity
+                
+                /* This makes the first total quantity is doubled
                 DataRow firstRow = marketDataRows[0];
                 totalQuantity += Convert.ToInt32(firstRow[1]);
-                totalQuantities[0] = totalQuantity;
+                totalQuantities[0] = totalQuantity;*/
 
                 int index = 0;
                 foreach (DataRow row in marketDataRows)
