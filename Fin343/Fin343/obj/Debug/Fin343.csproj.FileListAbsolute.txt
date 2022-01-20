@@ -28,3 +28,13 @@ C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csproj.GenerateRe
 C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.csproj.CoreCompileInputs.cache
 C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.exe
 C:\Users\jenny\Downloads\Fin343\Fin343\Fin343\obj\Debug\Fin343.pdb
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.csprojAssemblyReference.cache
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.Form1.resources
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.Properties.Resources.resources
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.csproj.GenerateResource.cache
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.csproj.CoreCompileInputs.cache
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.exe
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\obj\Debug\Fin343.pdb
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\bin\Debug\Fin343.exe.config
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\bin\Debug\Fin343.exe
+C:\Users\roche\RiderProjects\TouroStockMarketProject\Fin343\Fin343\bin\Debug\Fin343.pdb
