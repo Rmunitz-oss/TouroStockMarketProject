@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Security.AccessControl;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Fin343
 {
@@ -47,7 +48,6 @@ namespace Fin343
                 DataSet dataSet = new DataSet();
                 dataAdapter.Fill(dataSet, "DailyPnL");
                 
-                
                 DataColumn dates = dataSet.Tables[0].Columns[0];
                 DataColumn tradeQuantities = dataSet.Tables[0].Columns[1];
                 DataColumn transactionPrices = dataSet.Tables[0].Columns[2];
@@ -56,13 +56,7 @@ namespace Fin343
                 DataColumn previousClosingPrices = dataSet.Tables[0].Columns[5];
                 
                 DataRowCollection marketDataRows = dataSet.Tables[0].Rows;
-                /*
-                foreach(var item in marketDataRows[0].ItemArray)
-                {
-                    Console.Write(item + ", ");
-                }
-                Console.WriteLine();
-                */
+               
 
                 //calculations
                 int nrRows = marketDataRows.Count;
@@ -82,13 +76,7 @@ namespace Fin343
                     totalQuantities[index] = totalQuantity;
                     index++; 
                 }
-                /*
-                foreach(var item in totalQuantities)
-                {
-                    Console.Write(item + ", ");
-                }
-                Console.WriteLine("-------------");
-                */
+             
 
                 //c. position pnl = quantity (current closing price - prior closing price)
                 decimal [] positionPnLs = new decimal[nrRows];
@@ -105,13 +93,7 @@ namespace Fin343
                     decimal positionPnL = quantity * (closingPrice - previousClosingPrice);
                     positionPnLs[ix] = positionPnL;
                 }
-                /*
-                foreach (var item in positionPnLs)
-                {
-                    Console.Write(item + ", ");
-                }
-                Console.WriteLine("-------------");
-                */
+              
 
                 //d. total daily pnl = trading pnl + position pnl
                 decimal [] totalDailyPnLs = new decimal[nrRows];
@@ -121,13 +103,6 @@ namespace Fin343
                     decimal tradingPnl = Convert.ToDecimal(row[4]);
                     totalDailyPnLs[ix] = tradingPnl + positionPnLs[ix];
                 }
-                /*
-                foreach (var item in totalDailyPnLs)
-                {
-                    Console.Write(item + ", ");
-                }
-                Console.WriteLine("-------------");
-                */
 
                 //e. cumulative pnl = prior cumulative + total daily pnl
                 decimal [] cumulativePnLs = new decimal[nrRows];
@@ -140,15 +115,22 @@ namespace Fin343
                     }
                     
                 }
-                /*
-                foreach (var item in cumulativePnLs)
-                {
-                    Console.Write(item + ", ");
-                }
-                Console.WriteLine("-------------");
-                */
+              
 
                 //display data to user
+                /*
+                Series series = chart.Series.Add("PnL");
+                DateTime[] datesChart =
+                {
+                    Convert.ToDateTime(dates)
+                };
+                series.ChartType = SeriesChartType.Spline;
+                for (int ix = 0; ix < totalDailyPnLs.Length; ix++)
+                {
+                    series.Points.AddXY(datesChart[ix], totalDailyPnLs[ix]);
+                }
+                */
+                
 
             }
             catch (Exception error)
